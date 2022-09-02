@@ -6,8 +6,7 @@ document.querySelectorAll('a').forEach(link => {
     // Output value of targetUrl to console
     console.log('A link with target URL ' + targetUrl + 'was clicked');
 		var video = document.getElementById('video');
-		var str = targetUrl.replace("/Web/Science/Science.html#","/Video/Science/");
-		var str = str.replace("443","3000");
+		var str = targetUrl.replace("/Web/Science/Science.html#",":3000/Video/Science/");
 	   video.setAttribute("src", str);
 		video.load();
 		video.play();
