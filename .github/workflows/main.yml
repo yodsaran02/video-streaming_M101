@@ -26,7 +26,7 @@ jobs:
           username: root
           server: sbwsmp101.com
           port: 22 # default is 22
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.password }}
  
           
           # will put all file under this path
