@@ -7,7 +7,8 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    version = 0.60
+    return render_template("index.html",version=version)
 
 @app.route("/Web/<subject>")
 def Web(subject):
