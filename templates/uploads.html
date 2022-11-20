@@ -34,7 +34,7 @@
           console.log(subject);        
           status.innerHTML = "Upload Status:Uploading...";
           formData.append("file", fileupload.files[0]);
-          await fetch('170.187.225.114:3000/upload'+subject, {
+          await fetch('http://170.187.225.114:3000/upload'+subject, {
             method: "POST", 
             body: formData
           });    
