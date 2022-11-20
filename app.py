@@ -1,10 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect
 import sqlite3 as sql
 app = Flask(__name__)
 
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-
 
 
 @app.route("/")
@@ -16,14 +15,23 @@ def index():
 def Web(subject):
     return render_template("Web/"+subject+".html")
 
-@app.route("/search",methods=["GET","POST"])
-def search():
-    #print("Searching....")
-    return render_template("search.html")
-
-@app.route("/upload")
+@app.route("/upload",methods=["GET","POST"])
 def upload():
-    return render_template("upload.html")
+    if request.method == "POST":
+        if request.form.get("password") == "m101":
+            return redirect("/uploads")
+        else:
+            return redirect("/")
+    else:
+        return render_template("upload.html")
+
+@app.route("/uploads")
+def uploads():
+    return render_template("uploads.html")
+
+
+
+
 
 
 
