@@ -19,7 +19,7 @@ def Web(subject):
 def upload():
     if request.method == "POST":
         if request.form.get("password") == "m101":
-            return redirect("/uploads")
+            return redirect("http://170.187.225.114:3000")
         else:
             return redirect("/")
     else:
