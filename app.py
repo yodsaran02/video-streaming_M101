@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import sqlite3 as sql
 app = Flask(__name__)
 
 
@@ -15,12 +16,14 @@ def index():
 def Web(subject):
     return render_template("Web/"+subject+".html")
 
-@app.route("/search",methods=["GET"])
+@app.route("/search",methods=["GET","POST"])
 def search():
-    print("Searching....")
+    #print("Searching....")
     return render_template("search.html")
 
-
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")
 
 
 
