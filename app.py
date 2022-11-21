@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect
 import sqlite3 as sql
+import subprocess as process
 app = Flask(__name__)
 
 
@@ -13,9 +14,9 @@ def execute(db,command):
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    version = 0.61
+    version = 61
     return render_template("index.html",version=version)
-
+-
 @app.route("/Web/<subject>")
 def Web(subject):
     return render_template("Web/"+subject+".html")
