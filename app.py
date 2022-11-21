@@ -4,8 +4,13 @@ app = Flask(__name__)
 
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+con = sql.connect("video.db")
+db = con.cursor()
+def execute(db,command):
+    db.execute(command)
+    return list(db.fetchone())
 
-
+#print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
     version = 0.61
