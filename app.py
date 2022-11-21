@@ -8,8 +8,8 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 con = sql.connect("video.db")
 db = con.cursor()
-def execute(db,command):
-    db.execute(command)
+def execute(dbs,command):
+    dbs.execute(command)
     return list(db.fetchone())
 
 subject = ["Math","Science","Health","History","English","Social","Thai"]
@@ -44,7 +44,13 @@ def upload():
 def uploads():
     return render_template("uploads.html")
 
-
+@app.route("/search",methods=["GET"])
+def search():
+    #print("search")
+    args = request.args
+    keywords = args.get("search")
+    print(keywords)
+    return render_template("search.html")
 
 
 
