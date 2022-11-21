@@ -13,13 +13,17 @@ def execute(db,command):
     return list(db.fetchone())
 
 subject = ["Math","Science","Health","History","English","Social","Thai"]
+videos = []
 for i in range(7):
-    print(os.listdir("/home/Video/"+subject[i]))
+    video = os.listdir("/home/Video/"+subject[i])
+    videos.append(video)
+
+print(videos)
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    version = 61
+    version = 56
     return render_template("index.html",version=version)
 
 @app.route("/Web/<subject>")
