@@ -57,7 +57,7 @@ def video():
     args = request.args
     subject = args.get("subject")
     date = args.get("date")
-    link = "http://170.187.225.114:3001/"+subject+"/"+date
+    link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link)
 
 
