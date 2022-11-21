@@ -4,9 +4,10 @@
 {% block main %}
 <style>
     video{
-        height :90%;
         width :90%;
+        display: block;
+        margin: 0 auto;
     }
 </style>
-<video src={{ link }} class="text-center" autoplay></video>
+<video src={{ link }} autoplay controls></video>
 {% endblock %}
