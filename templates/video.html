@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Video - M1/1 Video{% endblock %}
+{% block main %}
+<style>
+    video{
+        height :90%;
+        width :90%;
+    }
+</style>
+<video src={{ link }} class="text-center" autoplay></video>
+{% endblock %}

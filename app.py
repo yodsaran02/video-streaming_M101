@@ -52,7 +52,13 @@ def search():
     print(keywords)
     return render_template("search.html")
 
-
+@app.route("/video",methods=["GET"])
+def video():
+    args = request.args
+    subject = args.get("subject")
+    date = args.get("date")
+    link = "http://170.187.225.114:3001/"+subject+"/"+date
+    return render_template("video.html",link=link)
 
 
 
