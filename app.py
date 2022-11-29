@@ -19,16 +19,16 @@ for i in range(7):
     videos.append(video)
 
 print(videos)
+version = 56
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    version = 56
     return render_template("index.html",version=version)
 
 @app.route("/Web/<subject>")
 def Web(subject):
-    return render_template("Web/"+subject+".html")
+    return render_template("Web/"+subject+".html",version=version)
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
