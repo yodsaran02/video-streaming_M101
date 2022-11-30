@@ -24,7 +24,8 @@ version = 56
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    return render_template("index.html",version=version)
+    table = execute(db,"SELECT * FROM video")
+    return render_template("index.html",version=version,table=table)
 
 @app.route("/Web/<subject>")
 def Web(subject):
@@ -60,7 +61,10 @@ def video():
     link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link)
 
-
+@app.route("/tag")
+def tag():
+    table = execute(db,"SELECT * FROM video")
+    return render_template("tag.html",table=table)
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
