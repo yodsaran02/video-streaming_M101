@@ -64,8 +64,17 @@
         </nav>
 		<!-- Video Preview -->
         {% for row in table %}
-            <h3>{{ row[0] row[1] row[2] row[3] }}</h3>
+            <h3>{{ row }} </h3>
         {% endfor %}
+        <form action="/tag" method="post">
+            <input type="text" name="tag" value="tag">
+            <select name="id" id="id">
+                {% for row in table %}
+                    <option value={{ row[0] }}>{{ row[0] }}</option>
+                {% endfor %}
+              </select>
+            <input type="submit" value="Set" name="Set">
+        </form>
 
 	  </div>
 		</div>

@@ -61,7 +61,7 @@ def video():
     link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link)
 
-@app.route("/tag")
+@app.route("/tag",methods=["POST","GET"])
 def tag():
     table = execute(db,"SELECT * FROM video")
     return render_template("tag.html",table=table,version=version)
