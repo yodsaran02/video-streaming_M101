@@ -8298,9 +8298,15 @@ a[data-toggle="collapse"] {
 
 .divblocks {
   height: 700px;
-  background-color: #ffc107;
+  background-color: #f1f1f1;
   color: black;
   border: 0px solid black;
   margin: 0px;
   padding: 20px;
+  font-family: Helvetica, Sans-Serif;
+  
+}
+
+.h1fonts {
+  text-align: center;
 }
