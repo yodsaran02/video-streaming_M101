@@ -64,7 +64,7 @@ def video():
 @app.route("/tag")
 def tag():
     table = execute(db,"SELECT * FROM video")
-    return render_template("tag.html",table=table)
+    return render_template("tag.html",table=table,version=version)
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
