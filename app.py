@@ -63,8 +63,11 @@ def video():
 
 @app.route("/tag",methods=["POST","GET"])
 def tag():
-    table = execute(db,"SELECT * FROM video")
-    return render_template("tag.html",table=table,version=version)
-
+    if request.method == "GET":
+        table = execute(db,"SELECT * FROM video")
+        return render_template("tag.html",table=table,version=version)
+    else:
+        execute(db,"UPDATE video SET tag ='"+request.form.get("tag")+"' WHERE video_id = "+request.form.get("id")+";")
+        print("added")
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
