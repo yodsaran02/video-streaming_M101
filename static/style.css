@@ -8304,7 +8304,7 @@ a[data-toggle="collapse"] {
   margin: 0px;
   padding: 20px;
   font-family: Helvetica, Sans-Serif;
-  
+  box-shadow: 2px 2px;
 }
 
 .h1fonts {
