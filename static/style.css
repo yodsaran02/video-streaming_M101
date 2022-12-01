@@ -8307,6 +8307,17 @@ a[data-toggle="collapse"] {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
 }
 
+.divblocks2 {
+  height: 230px;
+  background-color: #f1f1f1;
+  color: black;
+  border: 0px solid black;
+  margin: 0px;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.01);
+}
+
 .h1fonts {
   text-align: center;
 }
