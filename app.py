@@ -65,11 +65,11 @@ def tag():
     if request.method == "GET":
         table = execute(db,"SELECT * FROM video")
         return render_template("tag.html",table=table,version=version)
-    else:
+    elif request.method == "POST":
         tag = request.form.get("tag")
         video_id = request.form.get("id")
         execute(db,f"UPDATE video SET tag ='{tag}' WHERE video_id = {video_id}")
-        print("added")
+        return redirect("/tag")
 
 
 if __name__ == "__main__":
