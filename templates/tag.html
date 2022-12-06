@@ -66,7 +66,7 @@
         {% for row in table %}
             <h3>{{ row }} </h3>
         {% endfor %}
-        <form action="/tag" method="post">
+        <form action=path() method="post">
             <input type="text" name="tag" value="tag">
             <select name="id" id="id">
                 {% for row in table %}
@@ -87,6 +87,10 @@
 		if (screen.width <= 700) {
 			document.getElementById("search").size = 18;
 		}
+		function path()  
+		{  
+			return window.location.pathname;
+		}  
 	</script>
   </body>
 </html>
