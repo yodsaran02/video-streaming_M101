@@ -60,10 +60,10 @@ def video():
     link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link)
 
-@app.route("/tag",methods=["POST","GET"])
+@app.route("/tag/<subject>",methods=["POST","GET"])
 def tag():
     if request.method == "GET":
-        table = execute(db,"SELECT * FROM video")
+        table = execute(db,f"SELECT * FROM video WHERE subject ='{subject}'")
         return render_template("tag.html",table=table,version=version)
     elif request.method == "POST":
         tag = request.form.get("tag")
