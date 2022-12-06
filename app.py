@@ -25,12 +25,12 @@ version = 56
 @app.route("/")
 def index():
     table = execute(db,"SELECT * FROM video")
-    views++
+    views += 1
     return render_template("index.html",version=version,table=table,views=views)
 
 @app.route("/Web/<subject>")
 def Web(subject):
-    views++
+    views += 1
     return render_template("Web/"+subject+".html",version=version)
 
 @app.route("/upload",methods=["GET","POST"])
@@ -50,7 +50,7 @@ def uploads():
 @app.route("/search",methods=["GET"])
 def search():
     #print("search")
-    views++
+    views += 1
     args = request.args
     keywords = args.get("search")
     print(keywords)
@@ -58,7 +58,7 @@ def search():
 
 @app.route("/video",methods=["GET"])
 def video():
-    views++
+    views += 1
     args = request.args
     subject = args.get("subject")
     date = args.get("date")
@@ -67,7 +67,7 @@ def video():
 
 @app.route("/tag",methods=["POST","GET"])
 def tag():
-    views++
+    views += 1
     if request.method == "GET":
         table = execute(db,"SELECT * FROM video")
         return render_template("tag.html",table=table,version=version)
