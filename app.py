@@ -64,12 +64,12 @@ def video():
 def tag(subject_tag):
     if request.method == "GET":
         table = execute(db,f"SELECT * FROM video WHERE subject ='{subject_tag}'")
-        return render_template("tag.html",table=table,version=version)
+        return render_template("tag.html",table=table,version=version,path=f"/tag/{subject_tag}")
     elif request.method == "POST":
         tag = request.form.get("tag")
         video_id = request.form.get("id")
         execute(db,f"UPDATE video SET tag ='{tag}' WHERE video_id = {video_id}")
-        return redirect("/tag")
+        return redirect(f"/tag/{subject_tag}")
 
 
 if __name__ == "__main__":

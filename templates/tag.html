@@ -64,9 +64,9 @@
         </nav>
 		<!-- Video Preview -->
         {% for row in table %}
-            <h3>{{ row }} </h3>
+            <h4>{{ row }}</h4>
         {% endfor %}
-        <form action=path() method="post">
+        <form action={{ path }} method="post">
             <input type="text" name="tag" value="tag">
             <select name="id" id="id">
                 {% for row in table %}
