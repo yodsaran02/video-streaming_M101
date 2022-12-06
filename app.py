@@ -66,7 +66,7 @@ def tag():
         table = execute(db,"SELECT * FROM video")
         return render_template("tag.html",table=table,version=version)
     else:
-        execute(db,"UPDATE video SET tag ="+"'"+request.form.get("tag")+"'"+" WHERE date = "+"'"+request.form.get("id")+"'")
+        execute(db,f"UPDATE video SET tag ='{request.form.get("tag")}' WHERE video_id = {request.form.get("id")}")
         print("added")
 
 
