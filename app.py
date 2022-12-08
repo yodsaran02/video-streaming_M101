@@ -10,6 +10,7 @@ con = sql.connect("video.db")
 db = con.cursor()
 def execute(dbs,command):
     dbs.execute(command)
+    con.commit()
     return list(db.fetchall())
 
 subject = ["Math","Science","Health","History","English","Social","Thai"]
