@@ -72,6 +72,9 @@ def tag(subject_tag):
         execute(db,f"UPDATE video SET tag ='{tag}' WHERE video_id = {video_id}")
         return redirect(f"/tag/{subject_tag}")
 
+@app.route("/tag")
+def tagpage():
+    return render_template("tagmenu.html")
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
