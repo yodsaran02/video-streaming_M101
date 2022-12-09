@@ -8326,7 +8326,7 @@ a[data-toggle="collapse"] {
   font-size:18px;
 }
 
-.buttonXs {
+.button {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
@@ -8340,14 +8340,13 @@ a[data-toggle="collapse"] {
   cursor: pointer;
 }
 
-.buttonX {
+.button1 {
   background-color: white; 
   color: black; 
   border: 2px solid #4CAF50;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.01);
 }
 
-.buttonX:hover {
+.button1:hover {
   background-color: #4CAF50;
   color: white;
 }
