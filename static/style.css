@@ -8325,3 +8325,12 @@ a[data-toggle="collapse"] {
 .pfonts {
   font-size:18px;
 }
+
+largeDiv {
+  height: auto;
+  border: 0px solid black;
+  margin: 0px;
+  padding: 0px;
+  font-family: Helvetica, Sans-Serif;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+}
