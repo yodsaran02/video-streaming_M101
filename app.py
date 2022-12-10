@@ -10,6 +10,7 @@ con = sql.connect("video.db")
 db = con.cursor()
 def execute(dbs,command):
     dbs.execute(command)
+    con.commit()
     return list(db.fetchall())
 
 subject = ["Math","Science","Health","History","English","Social","Thai"]
@@ -47,7 +48,6 @@ def uploads():
 
 @app.route("/search",methods=["GET"])
 def search():
-    #print("search")
     args = request.args
     keywords = args.get("search")
     print(keywords)
@@ -61,13 +61,20 @@ def video():
     link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link)
 
-@app.route("/tag",methods=["POST","GET"])
-def tag():
+@app.route("/tag/<subject_tag>",methods=["POST","GET"])
+def tag(subject_tag):
     if request.method == "GET":
-        table = execute(db,"SELECT * FROM video")
-        return render_template("tag.html",table=table,version=version)
-    else:
-        execute(db,"UPDATE video SET tag ='"+request.form.get("tag")+"' WHERE video_id = "+request.form.get("id")+";")
-        print("added")
+        table = execute(db,f"SELECT * FROM video WHERE subject ='{subject_tag}'")
+        return render_template("tag.html",table=table,version=version,path=f"/tag/{subject_tag}")
+    elif request.method == "POST":
+        tag = request.form.get("tag")
+        video_id = request.form.get("id")
+        execute(db,f"UPDATE video SET tag ='{tag}' WHERE video_id = {video_id}")
+        return redirect(f"/tag/{subject_tag}")
+
+@app.route("/tag")
+def tagpage():
+    return render_template("tagmenu.html")
+
 if __name__ == "__main__":
   app.run(host='0.0.0.0')

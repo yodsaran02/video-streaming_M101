@@ -3,7 +3,7 @@
   		<title>M1/1 Video-streaming</title>
     		<meta charset="utf-8">
     		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-		<link rel="icon" type="image/x-icon" href="/static/image/jwind-logo.png">
+		<link rel="icon" type="image/x-icon" href="/static/image/icon2.png">
 		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="/static/style.css">
@@ -64,13 +64,13 @@
         </nav>
 		<!-- Video Preview -->
         {% for row in table %}
-            <h3>{{ row }} </h3>
+            <h4>{{ row }}</h4>
         {% endfor %}
-        <form action="/tag" method="post">
+        <form action={{ path }} method="post">
             <input type="text" name="tag" value="tag">
             <select name="id" id="id">
                 {% for row in table %}
-                    <option value={{ row[0] }}>{{ row[0] }}</option>
+                    <option name={{ row[0] }} value={{ row[0] }}>{{ row[0] }}</option>
                 {% endfor %}
               </select>
             <input type="submit" value="Set" name="Set">
@@ -87,6 +87,10 @@
 		if (screen.width <= 700) {
 			document.getElementById("search").size = 18;
 		}
+		function path()  
+		{  
+			return window.location.pathname;
+		}  
 	</script>
   </body>
 </html>
