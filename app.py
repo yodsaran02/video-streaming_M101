@@ -13,13 +13,6 @@ def execute(dbs,command):
     con.commit()
     return list(db.fetchall())
 
-subject = ["Math","Science","Health","History","English","Social","Thai"]
-videos = []
-for i in range(7):
-    video = os.listdir("/home/Video/"+subject[i])
-    videos.append(video)
-
-print(videos)
 version = 56
 
 #print(execute(db,"SELECT * FROM video"))
@@ -75,6 +68,10 @@ def tag(subject_tag):
 @app.route("/tag")
 def tagpage():
     return render_template("tagmenu.html")
+
+@app.route("/convert")
+def convert():
+    return render_template("convert.html")
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
