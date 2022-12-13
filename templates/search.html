@@ -2,6 +2,8 @@
 
 {% block title %}Search - M1/1 Video{% endblock %}
 {% block main %}
-
+{% for row in related %}
+<h3>{{ row[0] }} {{ row[1] }} {{ row[2] }} ----> {{ row[3] }}</h3>
+{% endfor %}
 
 {% endblock %}

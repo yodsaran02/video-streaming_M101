@@ -44,7 +44,8 @@ def search():
     args = request.args
     keywords = args.get("search")
     print(keywords)
-    return render_template("search.html")
+    related = execute(db,f"SELECT * FROM video WHERE tag LIKE %{keywords}%")
+    return render_template("search.html",related=related)
 
 @app.route("/video",methods=["GET"])
 def video():
