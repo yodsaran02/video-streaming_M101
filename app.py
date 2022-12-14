@@ -13,6 +13,7 @@ def execute(dbs,command):
     con.commit()
     return list(db.fetchall())
 
+converting = []
 version = 56
 
 #print(execute(db,"SELECT * FROM video"))
@@ -45,7 +46,7 @@ def search():
     keywords = args.get("search")
     print(keywords)
     related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
-    return render_template("search.html",related=related)
+    return render_template("search.html",related=related,version=version)
 
 @app.route("/video",methods=["GET"])
 def video():
@@ -53,7 +54,7 @@ def video():
     subject = args.get("subject")
     date = args.get("date")
     link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
-    return render_template("video.html",link=link)
+    return render_template("video.html",link=link,version=version)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
 def tag(subject_tag):
@@ -68,11 +69,22 @@ def tag(subject_tag):
 
 @app.route("/tag")
 def tagpage():
-    return render_template("tagmenu.html")
+    return render_template("tagmenu.html",version=version)
 
-@app.route("/convert")
+@app.route("/convert",methods=["GET","POST"])
 def convert():
-    return render_template("convert.html")
+    if request.method == "POST":
+        file2convert = request.form.get("file")
+        converting.append(file2convert)
+        print(converting)
+    else 
+        tempfile = os.listdir("/home/Video/Temp")
+        if len(converting) > 0:
+            for i in range(len(converting)):
+                for j in range(len(tempfile)):
+                    if converting[i] == tempfile[j]:
+                        tempfile.remove(tempfile[j])
+        return render_template("convert.html",version=version,tempfile=tempfile)
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
