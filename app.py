@@ -77,8 +77,13 @@ def convert():
         file2convert = request.form.get("file")
         converting.append(file2convert)
         print(converting)
-    else 
+    else:
         tempfile = os.listdir("/home/Video/Temp")
+        if len(converting) > 0:
+            for i in range(len(converting)):
+                for j in range(len(tempfile)):
+                    if converting[i] == tempfile[j]:
+                        tempfile.remove(tempfile[j])
         return render_template("convert.html",version=version,tempfile=tempfile)
 
 if __name__ == "__main__":
