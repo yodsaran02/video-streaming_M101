@@ -77,6 +77,7 @@ def convert():
         file2convert = request.form.get("file")
         converting.append(file2convert)
         print(converting)
+        return redirect("/convert")
     else:
         tempfile = os.listdir("/home/Video/Temp")
         if len(converting) > 0:
