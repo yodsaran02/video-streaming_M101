@@ -8307,6 +8307,15 @@ a[data-toggle="collapse"] {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
 }
 
+.divblocks1 {
+  height: 300px;
+  border: 0px solid black;
+  margin: 40px;
+  padding: 20px;
+  font-family: Helvetica, Sans-Serif;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
 .divblocks2 {
   height: 250px;
   background-color: #f1f1f1;
