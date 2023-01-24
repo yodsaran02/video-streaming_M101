@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-con = sql.connect("video.db")
+con = sql.connect("video.db", check_same_thread=False)
 db = con.cursor()
 def execute(dbs,command):
     dbs.execute(command)
