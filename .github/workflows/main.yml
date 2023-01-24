@@ -23,4 +23,4 @@ jobs:
         username: 'root'
         password: ${{ secrets.password }}
         localPath: './'
-        remotePath: '/home/flask_m101'
+        remotePath: '/home/test-server'
