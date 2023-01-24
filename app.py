@@ -3,6 +3,7 @@ import sqlite3 as sql
 import subprocess as process
 import os
 from tempfile import mkdtemp
+from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 app = Flask(__name__)
 
