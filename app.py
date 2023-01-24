@@ -105,7 +105,7 @@ def tagpage():
 def login():
     session.clear()
     if request.method == "POST":
-        continue
+        pass
     else:
         return render_template("login.html",version=version)
 
