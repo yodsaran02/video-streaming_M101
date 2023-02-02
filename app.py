@@ -42,7 +42,7 @@ def login_required(f):
 @login_required
 def index():
     table = execute(db,"SELECT * FROM video")
-    return render_template("index.html",version=version,table=table)
+    return render_template("index.html",version=version,table=table,session=session)
 
 @app.route("/Web/<subject>")
 @login_required
@@ -105,7 +105,31 @@ def tagpage():
 def login():
     session.clear()
     if request.method == "POST":
-        pass
+        username = request.form.get("username")
+        password = request.form.get("password")
+        username = username.replace("?","")
+        username = username.replace("'","")
+        if not username:
+            return redirect("/login")
+        
+        if not password:
+            return redirect("/login")
+
+        print(f"SELECT * FROM users WHERE username = '{username}'")
+        userdb.execute(f"SELECT * FROM users WHERE username = '{username}'")
+        rows = list(userdb.fetchall())
+        print(rows)
+        if len(rows) != 1:
+            return redirect("/login")
+
+        current_user = list(rows[0])
+        print(current_user[2])
+        if not check_password_hash(current_user[2], password):
+            return redirect("/login")
+        
+        session["user_id"] = current_user[0]
+        session["name"] = current_user[1]
+        return redirect("/")
     else:
         return render_template("login.html",version=version)
 
