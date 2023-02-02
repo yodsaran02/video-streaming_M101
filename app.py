@@ -42,8 +42,7 @@ def login_required(f):
 @app.route("/")
 @login_required
 def index():
-    table = execute(db,"SELECT * FROM video")
-    return render_template("index.html",version=version,table=table,session=session)
+    return render_template("index.html",version=version,session=session)
 
 @app.route("/Web/<subject>")
 @login_required
