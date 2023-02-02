@@ -6,6 +6,7 @@ from tempfile import mkdtemp
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+from datetime import date
 app = Flask(__name__)
 
 
@@ -48,22 +49,6 @@ def index():
 @login_required
 def Web(subject):
     return render_template("Web/"+subject+".html",version=version)
-
-@app.route("/upload",methods=["GET","POST"])
-@login_required
-def upload():
-    if request.method == "POST":
-        if request.form.get("password") == "m101":
-            return redirect("http://170.187.225.114:3000")
-        else:
-            return redirect("/")
-    else:
-        return render_template("upload.html")
-
-@app.route("/uploads")
-@login_required
-def uploads():
-    return render_template("uploads.html")
 
 @app.route("/search",methods=["GET"])
 @login_required
@@ -132,6 +117,18 @@ def login():
         return redirect("/")
     else:
         return render_template("login.html",version=version)
+
+
+@app.route("/upload")
+@login_required
+def upload():
+    if request.method == "POST":
+        today = date.today()
+        subject = request.form.get("subject")
+        f = request.files['videofile']
+        f.save("/home/Video/"+subject+"/",today+".mp4")
+    else:
+        return render_template("uploads.html")
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
