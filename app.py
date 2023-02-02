@@ -126,6 +126,8 @@ def upload():
         today = date.today()
         subject = request.form.get("subject")
         f = request.files['videofile']
+        if ".MOV" in f.filename:
+            f.save("/home/Video/Temp/",subject+today+".MOV")
         f.save("/home/Video/"+subject+"/",today+".mp4")
     else:
         return render_template("uploads.html")
