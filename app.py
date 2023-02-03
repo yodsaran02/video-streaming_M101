@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 import sqlite3 as sql
 import subprocess as process
 import os
-from request import get
+from requests import get
 app = Flask(__name__)
 ip = get('https://api.ipify.org').content.decode('utf8')
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -30,7 +30,7 @@ def Web(subject):
 def upload():
     if request.method == "POST":
         if request.form.get("password") == "m101":
-            return redirect(f"http://{ip}:3000")
+            return redirect("http://"+ip+":3000")
         else:
             return redirect("/")
     else:
