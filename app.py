@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, session, redirect
 import sqlite3 as sql
 import subprocess as process
 import os
-from requests import get
+import requests  
+
 app = Flask(__name__)
-ip = get('https://api.ipify.org').content.decode('utf8')
+ip = requests.get('https://api.ipify.org').content.decode('utf8')
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 con = sql.connect("video.db")
 db = con.cursor()
