@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, session, redirect
 import sqlite3 as sql
 import subprocess as process
 import os
+from request import get
 app = Flask(__name__)
-
-
+ip = get('https://api.ipify.org').content.decode('utf8')
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 con = sql.connect("video.db")
 db = con.cursor()
@@ -30,7 +30,7 @@ def Web(subject):
 def upload():
     if request.method == "POST":
         if request.form.get("password") == "m101":
-            return redirect("http://170.187.225.114:3000")
+            return redirect(f"http://{ip}:3000")
         else:
             return redirect("/")
     else:
@@ -53,7 +53,7 @@ def video():
     args = request.args
     subject = args.get("subject")
     date = args.get("date")
-    link = "http://170.187.225.114:3001/Video/"+subject+"/"+date
+    link = "http://"+ip+":3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link,version=version)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
