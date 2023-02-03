@@ -18,9 +18,9 @@ jobs:
       id: upload
       uses: Creepios/sftp-action@v1.0.3
       with:
-        host: '139.144.116.167'
+        host: '139.144.116.254'
         port: 22
         username: 'root'
         password: ${{ secrets.password }}
         localPath: './'
-        remotePath: '/home/testserver'
+        remotePath: '/home/test-server'
