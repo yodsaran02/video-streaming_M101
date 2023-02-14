@@ -8404,20 +8404,7 @@ a[data-toggle="collapse"] {
   padding: 0 155px 0 65px;
   background-color: transparent;
 }
-.input-box {
-  right: 20px;
-  font-size: 16px;
-  font-weight: 400;
-  color: #fff;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 6px;
-  background-color: #4070f4;
-  cursor: pointer;
-
-}
-
-.button {
+.input-box .button {
   right: 20px;
   font-size: 16px;
   font-weight: 400;
