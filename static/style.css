@@ -8376,3 +8376,43 @@ a[data-toggle="collapse"] {
   font-family: Helvetica, Sans-Serif;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
 }
+
+.ulstyle {
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lineblock {
+  margin-top: 10px; width: 30px; margin-left: auto; margin-right: auto; 
+  animation: biggers 0.1s linear;
+  animation-fill-mode: forwards;
+  
+}
+
+.lineblock:hover {
+  margin-top: 10px; width: 30px; margin-left: auto; margin-right: auto; z-index:100;
+  animation: bigger 0.1s linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bigger {
+  0%{
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  100%{
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+}
+@keyframes biggers {
+  0%{
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  100%{
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
