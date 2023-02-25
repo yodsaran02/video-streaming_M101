@@ -8416,3 +8416,8 @@ a[data-toggle="collapse"] {
     transform: scale(1);
   }
 }
+@media (max-width: 1250px) {
+  .hidden-mobile {
+    display: none;
+  }
+}
