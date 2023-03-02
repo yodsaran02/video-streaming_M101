@@ -7,12 +7,18 @@ import requests
 app = Flask(__name__)
 ip = requests.get('https://api.ipify.org').content.decode('utf8')
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-con = sql.connect("video.db")
-db = con.cursor()
-def execute(dbs,command):
-    dbs.execute(command)
-    con.commit()
-    return list(db.fetchall())
+if os.path.exists("./video.db"):
+    have_db = True
+else:
+    have_db = False
+
+if have_db:
+    con = sql.connect("video.db",check_same_thread=False)
+    db = con.cursor()
+    def execute(dbs,command):
+        dbs.execute(command)
+        con.commit()
+        return list(db.fetchall())
 
 converting = []
 version = 56
@@ -20,8 +26,13 @@ version = 56
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    table = execute(db,"SELECT * FROM video")
-    return render_template("index.html",version=version,table=table)
+    have_table = True
+    if have_db:
+        try:
+            table = execute(db,"SELECT * FROM video")
+        except:
+            have_table = False
+    return render_template("index.html",version=version,have_db=have_db,have_table=have_table)
 
 @app.route("/Web/<subject>")
 def Web(subject):

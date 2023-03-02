@@ -27,9 +27,54 @@
 			.h22 {
 				font-family: "Comic Sans MS", "Comic Sans", cursive;
 			}
+			.banner {
+			background: #D22B2B;
+			}
+
+			.banner__content {
+			padding: 16px;
+			max-width: 10000px;
+			margin: 0 auto;
+			display: flex;
+			align-items: center;
+			}
+
+			.banner__text {
+			flex-grow: 1;
+			line-height: 1.4;
+			font-family: "Quicksand", sans-serif;
+			}
+
+			.banner__close {
+			background: none;
+			border: none;
+			cursor: pointer;
+			}
+
+			.banner__text,
+			.banner__close > span {
+			color: #ffffff;
+			}
 		  </style>
   </head>
   <body>
+		{% if not have_table %}
+		<div class="banner">
+			<div class="banner__content">
+			  <div class="banner__text">
+				<strong>Warning:</strong> Running with Video Database but no Table Found. 
+			  </div>
+			</div>
+		  </div>
+		{% elif not have_db %}
+		<div class="banner">
+			<div class="banner__content">
+			  <div class="banner__text">
+				<strong>Warning:</strong> Running with no Video Database Found. 
+			  </div>
+			</div>
+		  </div>
+		{% endif %}
 
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
