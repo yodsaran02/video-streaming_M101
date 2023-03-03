@@ -20,3 +20,9 @@ function copylink(subject){
   button.innerHTML = "Copied!";
   const texttimeout = setTimeout(function (){button.innerHTML = "Copylink";},2000); 
 }
+function copylinks(){
+  var button = document.getElementById("copylink")
+  navigator.clipboard.writeText(window.location.href);
+  button.innerHTML = "Copied!";
+  const texttimeout = setTimeout(function (){button.innerHTML = "Copylink";},2000); 
+}
