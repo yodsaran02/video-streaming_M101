@@ -7,7 +7,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="/static/style.css">
-		
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<style>
 			#countdown {
 			  text-align: center;
@@ -30,7 +30,6 @@
 			.banner {
 			background: #D22B2B;
 			}
-
 			.banner__content {
 			padding: 16px;
 			max-width: 10000px;
@@ -64,6 +63,11 @@
 			  <div class="banner__text">
 				<strong>Warning:</strong> Running with Video Database but no Table Found. 
 			  </div>
+			  <button class="banner__close" type="button">
+				<span class="material-icons">
+				  close
+				</span>
+			  </button>
 			</div>
 		  </div>
 		{% elif not have_db %}
@@ -72,6 +76,11 @@
 			  <div class="banner__text">
 				<strong>Warning:</strong> Running with no Video Database Found. 
 			  </div>
+			  <button class="banner__close" type="button">
+				<span class="material-icons">
+				  close
+				</span>
+			  </button>
 			</div>
 		  </div>
 		{% endif %}
@@ -158,6 +167,7 @@
 		if (screen.width <= 700) {
 			document.getElementById("search").size = 17;
 		}
+		document.querySelector(".banner__close").addEventListener("click", function () {this.closest(".banner").style.display = "none";});
 	</script>
   </body>
 </html>

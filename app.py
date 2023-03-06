@@ -5,8 +5,15 @@ import os
 import requests  
 
 app = Flask(__name__)
-ip = requests.get('https://api.ipify.org').content.decode('utf8')
+
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+online_mode = True
+try:
+    ip = requests.get('https://api.ipify.org').content.decode('utf8')
+except:
+    online_mode = False
+    ip = "Jwind.tv"
+
 if os.path.exists("./video.db"):
     have_db = True
 else:
@@ -32,7 +39,7 @@ def index():
             table = execute(db,"SELECT * FROM video")
         except:
             have_table = False
-    return render_template("index.html",version=version,have_db=have_db,have_table=have_table)
+    return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/Web/<subject>")
 def Web(subject):
