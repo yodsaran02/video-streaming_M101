@@ -84,6 +84,20 @@
 			</div>
 		  </div>
 		{% endif %}
+		{% if not online_mode %}
+		<div class="banner">
+			<div class="banner__content">
+			  <div class="banner__text">
+				<strong>Warning:</strong> Running on offline mode. 
+			  </div>
+			  <button class="banner__close" type="button">
+				<span class="material-icons">
+				  close
+				</span>
+			  </button>
+			</div>
+		  </div>
+		{% endif %}
 
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
