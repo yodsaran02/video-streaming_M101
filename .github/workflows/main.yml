@@ -3,7 +3,7 @@ name: Deployment
 concurrency: production
 
 on:
-  pull_request:
+  push:
     branches:
       - deploy
 
@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.password }}
           compress: true
           localDir: './'                        
-          remoteDir: '/home/flask_m101'  
+          remoteDir: '/home/test'  
   build:
     name: Build
     runs-on: ubuntu-latest
