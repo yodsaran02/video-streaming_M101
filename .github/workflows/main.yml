@@ -21,16 +21,12 @@ jobs:
           password: ${{ secrets.password }}
           compress: true
           localDir: './'                        
-          remoteDir: '/home/test'  
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.8
-      with:
-        host: '139.144.116.254'
-        username: 'root'
-        password: ${{ secrets.password }}
-        port: 22
-        script: systemctl restart video.service
+          remoteDir: '/home/flask_m101/code'  
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: '139.144.116.254'
+          username: 'root'
+          password: ${{ secrets.password }}
+          port: 22
+          script: systemctl restart video.service
