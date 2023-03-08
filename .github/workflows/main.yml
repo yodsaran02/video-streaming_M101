@@ -22,6 +22,7 @@ jobs:
           compress: true
           localDir: './'                        
           remoteDir: '/home/flask_m101/code'  
+          exclude: '.DS_STORE,vendor/'
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.8
         with:
