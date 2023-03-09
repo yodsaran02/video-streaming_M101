@@ -10,48 +10,6 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
-		{% if not have_table %}
-		<div class="banner">
-			<div class="banner__content">
-			  <div class="banner__text">
-				<strong>Warning:</strong> Running with Video Database but no Table Found. 
-			  </div>
-			  <button class="banner__close" type="button">
-				<span class="material-icons">
-				  close
-				</span>
-			  </button>
-			</div>
-		  </div>
-		{% elif not have_db %}
-		<div class="banner">
-			<div class="banner__content">
-			  <div class="banner__text">
-				<strong>Warning:</strong> Running with no Video Database Found. 
-			  </div>
-			  <button class="banner__close" type="button">
-				<span class="material-icons">
-				  close
-				</span>
-			  </button>
-			</div>
-		  </div>
-		{% endif %}
-		{% if not online_mode %}
-		<div class="banner">
-			<div class="banner__content">
-			  <div class="banner__text">
-				<strong>Warning:</strong> Running on offline mode. 
-			  </div>
-			  <button class="banner__close" type="button">
-				<span class="material-icons">
-				  close
-				</span>
-			  </button>
-			</div>
-		  </div>
-		{% endif %}
-
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
@@ -113,14 +71,10 @@
 			<h3 class="text-light m-1">Beta testing - V{{ version }}</h3>
           </div>
         </nav> 
-		<div class="divblocks" id="Divss">
-			<a href="/static/image/secret.pdf"><h2 >V{{ version }} Update</h2></a>
-            <p class="pfonts">This update added the search tag which currently in developing, And we make some changes the navigation bar, We changed all pages in all category and Website board is now Live!</p>
-			<p class="font-bold"></p>
-		</div>
-		<div class="preview_latestvideo">
-		</div>
-		
+			<h3>{{ status_code }}</h3>
+			<img class="notimg" width="20%" src="/static/image/icon2.png">
+			<br><br>
+			<h3>Sorry, The page you are looking for is unavalible</h3>
 		
 		
 
@@ -138,5 +92,12 @@
 			document.getElementById("search").size = 17;
 		}
 	</script>
+	<style>
+		.notimg{
+			width: 20%;
+  			margin: auto;
+  			display: block;
+		}
+	</style>
   </body>
 </html>

@@ -18,6 +18,7 @@ if os.path.exists("./video.db"):
     have_db = True
 else:
     have_db = False
+have_table = True
 
 if have_db:
     con = sql.connect("video.db",check_same_thread=False)
@@ -26,6 +27,10 @@ if have_db:
         dbs.execute(command)
         con.commit()
         return list(db.fetchall())
+    try:
+        table = execute(db,"SELECT * FROM video")
+    except:
+        have_table = False
 
 converting = []
 version = 56
@@ -33,17 +38,11 @@ version = 56
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    have_table = True
-    if have_db:
-        try:
-            table = execute(db,"SELECT * FROM video")
-        except:
-            have_table = False
     return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/Web/<subject>")
 def Web(subject):
-    return render_template("Web/"+subject+".html",version=version)
+    return render_template("Web/"+subject+".html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/upload",methods=["GET","POST"])
 def upload():
@@ -61,11 +60,14 @@ def uploads():
 
 @app.route("/search",methods=["GET"])
 def search():
-    args = request.args
-    keywords = args.get("search")
-    print(keywords)
-    related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
-    return render_template("search.html",related=related,version=version)
+    if have_db and have_table:
+        args = request.args
+        keywords = args.get("search")
+        print(keywords)
+        related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
+        return render_template("search.html",related=related,version=version)
+    else:
+        return render_template("404.html",status_code="Database error")
 
 @app.route("/video",methods=["GET"])
 def video():
@@ -77,14 +79,17 @@ def video():
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
 def tag(subject_tag):
-    if request.method == "GET":
-        table = execute(db,f"SELECT * FROM video WHERE subject ='{subject_tag}'")
-        return render_template("tag.html",table=table,version=version,path=f"/tag/{subject_tag}")
-    elif request.method == "POST":
-        tag = request.form.get("tag")
-        video_id = request.form.get("id")
-        execute(db,f"UPDATE video SET tag ='{tag}' WHERE video_id = {video_id}")
-        return redirect(f"/tag/{subject_tag}")
+    if have_db and have_table:
+        if request.method == "GET":
+            table = execute(db,f"SELECT * FROM video WHERE subject ='{subject_tag}'")
+            return render_template("tag.html",table=table,version=version,path=f"/tag/{subject_tag}")
+        elif request.method == "POST":
+            tag = request.form.get("tag")
+            video_id = request.form.get("id")
+            execute(db,f"UPDATE video SET tag ='{tag}' WHERE video_id = {video_id}")
+            return redirect(f"/tag/{subject_tag}")
+    else:
+        return render_template("404.html",status_code="Database error")
 
 @app.route("/tag")
 def tagpage():
@@ -105,6 +110,14 @@ def convert():
                     if converting[i] == tempfile[j]:
                         tempfile.remove(tempfile[j])
         return render_template("convert.html",version=version,tempfile=tempfile)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html',status_code=404)
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('404.html',status_code=500)
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0')
