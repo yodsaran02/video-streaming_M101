@@ -20,7 +20,6 @@ jobs:
           username: 'root'
           password: ${{ secrets.password }}
           compress: true
-          forceUpload: true
           localDir: './'                        
           remoteDir: '/home/flask_m101/code'  
           exclude: '.DS_STORE,vendor/'
