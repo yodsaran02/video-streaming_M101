@@ -11,18 +11,16 @@ jobs:
   Upload-to-SFTP:
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code                    
-        uses: actions/checkout@v2
-      - name: 📂 SFTP uploader                      
-        uses: wangyucode/sftp-upload-action@v2.0.2
+      - uses: actions/checkout@v2    
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
         with:
-          host: '139.144.116.254'               
           username: 'root'
+          server: '139.144.116.254'
+          port: 22 # default is 22
           password: ${{ secrets.password }}
-          compress: true
-          localDir: './'                        
-          remoteDir: '/home/flask_m101/code'  
-          exclude: '.DS_STORE,vendor/'
+          local_path: ./* # default is ./*
+          remote_path: /home/flask_m101/code
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.8
         with:
