@@ -5,7 +5,10 @@ concurrency: production
 on:
   push:
     branches:
-      - deploy
+    - deploy
+  pull_request:
+    branches:
+    - deploy
 
 jobs:
   Upload-to-SFTP:
