@@ -1,0 +1,118 @@
+<!doctype html> <html lang="en">
+  <head>
+  		<title>M1/1 Video-streaming</title>
+    		<meta charset="utf-8">
+    		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=1.0 ,minimum-scale=1.0,  shrink-to-fit=yes">
+		<link rel="icon" type="image/x-icon" href="/static/image/icon2.png">
+		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/style.css">
+		<style>
+			#countdown {
+			  text-align: center;
+			  font-size: 36px;
+			  font-family: Arial, sans-serif;
+			}
+			h1 {
+			  text-align: center;
+			  font-size: 48px;
+			  font-family: Arial, sans-serif;
+			}
+			.h22 {
+				font-family: "Comic Sans MS", "Comic Sans", cursive;
+			}
+		  </style>
+  </head>
+  <body>
+
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="p-4 pt-5">
+	        <ul class="list-unstyled components mb-5">
+				<li>
+					<h3 class="text-light m-1">Quick Access</h2>
+				</li>
+	           <li>
+	              <a href="/Web/Math">คณิตศาสตร์</a>
+	          </li>
+			  <li>
+	              <a href="/Web/Science">วิทยาศาสตร์</a>
+	          </li>
+			  <li>
+	              <a href="/Web/English">ภาษาอังกฤษ</a>
+	          </li>
+			  <li>
+	              <a href="/Web/Thai">ภาษาไทย</a>
+	          </li>
+			  <li>
+	              <a href="/Web/Social">สังคม</a>
+	          </li>
+			  <li>
+	              <a href="/Web/Health">สุขศึกษา</a>
+	          </li>
+			  <li>
+	              <a href="/Web/History">ประวัติศาสตร์</a>
+	          </li>
+			  <li>
+				  <a href="http://justawebs.com/public/">Forum</a>
+			  </li>
+			  <li>
+				<a>All name and brand identity is own my phuwadol salingkarnboriboon</a>
+			  </li>
+
+	        </ul>
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+          <div class="container-fluid">
+			<button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button><br><br>
+		  <div class="text-start">
+            <form action="/search" method="get">
+				<input type="text" size="80" class="rounded" id="search" placeholder="Search Tag" name="search" autocomplete="off">
+				<input for="search" size="18" type="submit" class="rounded" id="search_btn" value="🔍︎">
+			</form>
+		  </div>	
+			<h3 class="text-light m-1">Beta testing - V{{ version }}</h3>
+          </div>
+        </nav> 
+		<div class="divblocks" id="Divss">
+			<h2>V{{ version }} Update {{ views }}views</h2>
+            <p class="pfonts">This update added the search tag which currently in developing, And we make some changes the navigation bar, We changed all pages in all category and Website board is now Live!</p>
+		</div>
+        <form>  
+            <div class="container">   
+                <label>Username : </label>   
+                <input type="text" placeholder="Enter Username" name="username" required>  
+                <label>Password : </label>   
+                <input type="password" placeholder="Enter Password" name="password" required>  
+                <button type="submit">Login</button>   
+                  
+            </div>   
+        </form> 
+
+
+		
+		
+		<!-- Video Preview -->
+		
+	  </div>
+		</div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+	<script>
+		
+		if (screen.width <= 700) {
+			document.getElementById("search").size = 17;
+		}
+	</script>
+  </body>
+</html>

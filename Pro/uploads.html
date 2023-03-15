@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload - M1/1 Video{% endblock %}
+{% block main %}
+<head>
+    <title>Upload Menu</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://170.187.225.114/css/style.css">
+  </head>
+  <body>
+    <h2 id="status">Upload Status:None</h2>
+      <input type="file" id="fileupload" name="fileupload"><br>
+      <button onclick="uploadFile()">Upload</button>
+      <select id="subject" name="subjectlist">
+          <option value="English">English</option>
+          <option value="Health">Health</option>
+          <option value="History">History</option>
+          <option value="Math">Math</option>
+          <option value="Science">Science</option>
+          <option value="Social">Social</option>
+          <option value="Thai">Thai</option>
+      </select>
+
+      <script>
+        async function uploadFile() {
+          var status = document.getElementById("status");
+          let formData = new FormData();   
+          var subject = document.getElementById("subject").value;
+          console.log(subject);        
+          status.innerHTML = "Upload Status:Uploading...";
+          formData.append("file", fileupload.files[0]);
+          await fetch('http://170.187.225.114:3000/upload'+subject, {
+            method: "POST", 
+            body: formData
+          });    
+          status.innerHTML = "Upload Status:Done!";
+          location.replace("http://170.187.225.114")
+        }
+      </script>
+    </body>
+
+{% endblock %}
