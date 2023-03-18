@@ -48,7 +48,7 @@
 
     <!-- Page Content  -->
   <div id="content" class="p-4 p-md-5">
-    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #dc3545;">
       <div class="container-fluid">
   <button type="button" id="sidebarCollapse" class="btn btn-primary">
           <i class="fa fa-bars"></i>
@@ -63,13 +63,15 @@
   <h3 class="text-light m-1">Beta testing - V{{ version }}</h3>
       </div>
     </nav>
-<video src="#" id="video" style="width: 100%;" controls>No Video</video>
+<video src="#" id="video" style="width: 100%; border-radius: 5px;" controls>No Video</video>
   <br>
-  <h4 for="date">Date:
+  <div style="width: 100%; height: auto; padding: 5px; background: #ffffff; box-shadow: 1px 1px 3px rgb(0 0 0 / 10%); border-radius: 10px;">
+  <h4 for="date" style="text-align: center;">Date:
   <input class="btn btn-light" type="date" id="date" name="date">
   <button class="btn btn-dark" onclick="playvideo('Science')">Play</button>
   <button class="btn btn-dark" id="copylink" onclick="copylink('Science')">Copylink</button>
   </h4>
+  </div>
   </div></div>
             
 </div>        
