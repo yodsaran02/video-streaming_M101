@@ -5,7 +5,7 @@ concurrency: production
 on:
   push:
     branches:
-      - deploy
+      - Test-(Pro)
 
 jobs:
   Upload-to-SFTP:
