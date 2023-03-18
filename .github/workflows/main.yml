@@ -24,7 +24,7 @@ jobs:
           username: 'root'
           password: ${{ secrets.password }}
           localPath: './'
-          remotePath: '/home/flask_m101/'
+          remotePath: '/home/test-pro/'
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.8
         with:
