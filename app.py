@@ -16,9 +16,11 @@ except:
 
 if os.path.exists("./video.db"):
     have_db = True
+    have_table = True
 else:
     have_db = False
-have_table = True
+    have_table = False
+
 
 if have_db:
     con = sql.connect("video.db",check_same_thread=False)
@@ -38,7 +40,11 @@ version = 56
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
 def index():
-    return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+    if have_table:
+        video_count = str(execute(db,"SELECT count(*) FROM video")[0][0])
+    else:
+        video_count = "Not connected to db"
+    return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode,video_count=video_count)
 
 @app.route("/Web/<subject>")
 def Web(subject):
