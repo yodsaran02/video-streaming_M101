@@ -5,7 +5,10 @@ concurrency: production
 on:
   push:
     branches:
-      - Test-(Pro)
+    - deploy
+  pull_request:
+    branches:
+    - deploy
 
 jobs:
   Upload-to-SFTP:
@@ -21,7 +24,9 @@ jobs:
           username: 'root'
           password: ${{ secrets.password }}
           localPath: './'
-          remotePath: '/home/test-pro/'
+          remotePath: '/home/flask_m101'
+
+
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.8
         with:
