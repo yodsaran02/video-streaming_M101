@@ -34,8 +34,7 @@ if have_db:
     except:
         have_table = False
 
-converting = []
-version = 56
+version = 57
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
@@ -100,22 +99,6 @@ def tag(subject_tag):
 @app.route("/tag")
 def tagpage():
     return render_template("tagmenu.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
-
-@app.route("/convert",methods=["GET","POST"])
-def convert():
-    if request.method == "POST":
-        file2convert = request.form.get("file")
-        converting.append(file2convert)
-        print(converting)
-        return redirect("/convert")
-    else:
-        tempfile = os.listdir("/home/Video/Temp")
-        if len(converting) > 0:
-            for i in range(len(converting)):
-                for j in range(len(tempfile)):
-                    if converting[i] == tempfile[j]:
-                        tempfile.remove(tempfile[j])
-        return render_template("convert.html",version=version,tempfile=tempfile)
 
 @app.errorhandler(404)
 def page_not_found(e):
