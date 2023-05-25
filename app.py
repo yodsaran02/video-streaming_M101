@@ -117,6 +117,10 @@ def convert():
                         tempfile.remove(tempfile[j])
         return render_template("convert.html",version=version,tempfile=tempfile)
 
+@app.route("/", subdomain="manage")
+def manage():
+    return render_template("dev-menu/dev-menu.html")
+    
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',status_code=404)
