@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+
+{% block title %}Convert - M1/1 Video{% endblock %}
+{% block main %}
 <!doctype html> <html lang="en">
   <head>
   		<title>M1/1 Video-streaming</title>
@@ -39,11 +43,8 @@
 	              <a href="/Web/History">ประวัติศาสตร์</a>
 	          </li>
 			  <li>
-				  <a href="http://justawebs.com/public/">Forum</a>
+				  <a href="/upload">Upload</a>
 			  </li>
-			  <li>
-				<p style="font-size:10px; text-align: center; margin-top:10px; color: rgba(255, 255, 255, 0.8);">©2023 Jwind.tv Is a streaming service, Not associate with any official school.</p>
-				</li>
 	        </ul>
 	      </div>
     	</nav>
@@ -66,19 +67,17 @@
           </div>
         </nav>
 		<!-- Video Preview -->
-        {% for row in table %}
-            <h4>{{ row }}</h4>
+        {% for file in tempfile %}
+            <h3>> {{ file }}</h3>
         {% endfor %}
-        <form action={{ path }} method="post">
-            <input type="text" name="tag">
-            <select name="id" id="id">
-                {% for row in table %}
-                    <option name={{ row[0] }} value={{ row[0] }}>{{ row[0] }}</option>
+        <form action="/convert" method="post">
+            <select name="file" id="file">
+                {% for file in tempfile %}
+                    <option name="{{ file }}" value="{{ file }}">{{ file }}</option>
                 {% endfor %}
-              </select>
-            <input type="submit" value="Set" name="Set">
+            </select>
+            <input type="submit" value="convert" name="convert">
         </form>
-
 	  </div>
 		</div>
 
@@ -87,13 +86,12 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/main.js"></script>
 	<script>
+		
 		if (screen.width <= 700) {
-			document.getElementById("search").size = 18;
+			document.getElementById("search").size = 17;
 		}
-		function path()  
-		{  
-			return window.location.pathname;
-		}  
 	</script>
   </body>
 </html>
+
+{% endblock %}
