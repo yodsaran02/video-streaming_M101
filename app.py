@@ -117,6 +117,13 @@ def convert():
                         tempfile.remove(tempfile[j])
         return render_template("convert.html",version=version,tempfile=tempfile)
 
+@app.route("/grade")
+def grademainpage():
+    return render_template('grade.html')
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',status_code=404)
