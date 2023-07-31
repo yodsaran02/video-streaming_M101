@@ -79,7 +79,7 @@ def video():
     args = request.args
     subject = args.get("subject")
     date = args.get("date")
-    link = "http://"+ip+":3001/Video/"+subject+"/"+date
+    link = "https://jwind.tv:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
