@@ -34,7 +34,7 @@ if have_db:
     except:
         have_table = False
 
-version = 61
+version = 62
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
