@@ -34,8 +34,7 @@ if have_db:
     except:
         have_table = False
 
-converting = []
-version = 56
+version = 62
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
@@ -69,9 +68,15 @@ def search():
     if have_db and have_table:
         args = request.args
         keywords = args.get("search")
-        print(keywords)
-        related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
-        return render_template("search.html",related=related,length=len(related),version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+        subject_arg = args.get("subject")
+        if keywords == None:
+            print(subject_arg)
+            related = execute(db,f"SELECT * FROM video WHERE subject = '{subject_arg}'")
+            return render_template("search.html",related=related,length=len(related),version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+        else:
+            print(keywords)
+            related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
+            return render_template("search.html",related=related,length=len(related),version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
     else:
         return render_template("404.html",status_code="Database error")
 
@@ -80,7 +85,7 @@ def video():
     args = request.args
     subject = args.get("subject")
     date = args.get("date")
-    link = "http://"+ip+":3001/Video/"+subject+"/"+date
+    link = "https://jwind.tv:3001/Video/"+subject+"/"+date
     return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
@@ -100,22 +105,6 @@ def tag(subject_tag):
 @app.route("/tag")
 def tagpage():
     return render_template("tagmenu.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
-
-@app.route("/convert",methods=["GET","POST"])
-def convert():
-    if request.method == "POST":
-        file2convert = request.form.get("file")
-        converting.append(file2convert)
-        print(converting)
-        return redirect("/convert")
-    else:
-        tempfile = os.listdir("/home/Video/Temp")
-        if len(converting) > 0:
-            for i in range(len(converting)):
-                for j in range(len(tempfile)):
-                    if converting[i] == tempfile[j]:
-                        tempfile.remove(tempfile[j])
-        return render_template("convert.html",version=version,tempfile=tempfile)
 
 @app.errorhandler(404)
 def page_not_found(e):
