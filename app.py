@@ -68,9 +68,15 @@ def search():
     if have_db and have_table:
         args = request.args
         keywords = args.get("search")
-        print(keywords)
-        related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
-        return render_template("search.html",related=related,length=len(related),version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+        subject_arg = args.get("subject")
+        if keywords == None:
+            print(subject_arg)
+            related = execute(db,f"SELECT * FROM video WHERE subject = '{subject_arg}'")
+            return render_template("search.html",related=related,length=len(related),version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+        else:
+            print(keywords)
+            related = execute(db,f"SELECT * FROM video WHERE tag LIKE '%{keywords}%'")
+            return render_template("search.html",related=related,length=len(related),version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
     else:
         return render_template("404.html",status_code="Database error")
 
