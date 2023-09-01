@@ -30,6 +30,18 @@ else:
     have_db = False
     have_table = False
 
+try:
+    user = sql.connect("user.db", check_same_thread=False)
+    users = user.cursor()
+    print("connected to user database")
+    def execute_user(dbs,command):
+        dbs.execute(command)
+        user.commit()
+        return list(users.fetchall())
+
+except:
+    have_db = False
+
 
 if have_db:
     con = sql.connect("video.db",check_same_thread=False)
@@ -137,7 +149,6 @@ def tagpage():
     return render_template("tagmenu.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/login",methods=["POST","GET"])
-@login_required
 def login():
     session.clear()
     if request.method == "GET":
@@ -152,17 +163,60 @@ def login():
             return render_template("login.html")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        rows = execute_user(users,f"SELECT * FROM users WHERE username = '{request.form.get('username')}'")
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0][2], request.form.get("password")):
             return render_template("login.html")
+
+        # Ensure that the user is verified
+        if not rows[0][3]:
+            return render_template("verified.html")
+
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
         session["name"] = rows[0]["username"]
 
         # Redirect user to home page
         return redirect("/")
+
+@app.route("/register",methods=["POST","GET"])
+def register():
+    """Register user"""
+    # Forget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+
+    if request.method == "POST":
+        rows = execute_user(users,f"SELECT * FROM users WHERE username = '{request.form.get('username')}'")
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            print("Username error")
+            return render_template("register.html")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            print("Password error")
+            return render_template("register.html")
+
+        # Ensure password was equal to confirmation password
+        elif request.form.get("password") != request.form.get("confirmation"):
+            print("comfirmation error")
+            return render_template("register.html")
+
+        # Ensure username was not the same as in database
+        elif len(rows) == 1:
+            return render_template("register.html")
+
+        execute_user(users,f"INSERT INTO users(username,hash,verified) VALUES('{request.form.get('username')}','{generate_password_hash(request.form.get('password'))}',0)")
+
+        return redirect("/login")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("register.html")
+
 
 
 @app.errorhandler(404)
