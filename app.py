@@ -2,11 +2,20 @@ from flask import Flask, render_template, request, session, redirect
 import sqlite3 as sql
 import subprocess as process
 import os
-import requests  
+import requests
+from tempfile import mkdtemp
+from flask_session import Session
+from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
+from datetime import date
+from login import login_required, lookup, usd
 
 app = Flask(__name__)
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 online_mode = True
 try:
     ip = requests.get('https://api.ipify.org').content.decode('utf8')
@@ -36,8 +45,22 @@ if have_db:
 
 version = 62
 
+def login_required(f):
+    """
+    Decorate routes to require login.
+    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
+@login_required
 def index():
     if have_table:
         video_count = str(execute(db,"SELECT count(*) FROM video")[0][0])
@@ -46,10 +69,12 @@ def index():
     return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode,video_count=video_count)
 
 @app.route("/Web/<subject>")
+@login_required
 def Web(subject):
     return render_template("Web/"+subject+".html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/upload",methods=["GET","POST"])
+@login_required
 def upload():
     if request.method == "POST":
         if request.form.get("password") == "m101":
@@ -60,10 +85,12 @@ def upload():
         return render_template("upload.html",have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/uploads")
+@login_required
 def uploads():
     return render_template("uploads.html",have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/search",methods=["GET"])
+@login_required
 def search():
     if have_db and have_table:
         args = request.args
@@ -81,6 +108,7 @@ def search():
         return render_template("404.html",status_code="Database error")
 
 @app.route("/video",methods=["GET"])
+@login_required
 def video():
     args = request.args
     subject = args.get("subject")
@@ -89,6 +117,7 @@ def video():
     return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
+@login_required
 def tag(subject_tag):
     if have_db and have_table:
         if request.method == "GET":
@@ -103,8 +132,38 @@ def tag(subject_tag):
         return render_template("404.html",status_code="Database error")
 
 @app.route("/tag")
+@login_required
 def tagpage():
     return render_template("tagmenu.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+
+@app.route("/login",methods=["POST","GET"])
+@login_required
+def login():
+    session.clear()
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return render_template("login.html")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return render_template("login.html")
+
+        # Query database for username
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+
+        # Ensure username exists and password is correct
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+            return render_template("login.html")
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
+        session["name"] = rows[0]["username"]
+
+        # Redirect user to home page
+        return redirect("/")
+
 
 @app.errorhandler(404)
 def page_not_found(e):
