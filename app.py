@@ -72,8 +72,8 @@ def login_required(f):
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
-@login_required
 def index():
+    print(session["user_id"])
     if have_table:
         video_count = str(execute(db,"SELECT count(*) FROM video")[0][0])
     else:
@@ -156,26 +156,26 @@ def login():
     elif request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
-            return render_template("login.html")
+            return render_template("login.html",msg="กรุณาใส่ชื่อผู้ใช้",error="True")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return render_template("login.html")
+            return render_template("login.html",msg="กรุณาใส่รหัสผ่าน",error="True")
 
         # Query database for username
         rows = execute_user(users,f"SELECT * FROM users WHERE username = '{request.form.get('username')}'")
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0][2], request.form.get("password")):
-            return render_template("login.html")
+            return render_template("login.html",msg="รหัสผ่านไม่ถูกต้อง",error="True")
 
         # Ensure that the user is verified
         if not rows[0][3]:
             return render_template("verified.html")
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
-        session["name"] = rows[0]["username"]
+        session["user_id"] = rows[0][0]
+        session["name"] = rows[0][1]
 
         # Redirect user to home page
         return redirect("/")
@@ -193,23 +193,23 @@ def register():
         # Ensure username was submitted
         if not request.form.get("username"):
             print("Username error")
-            return render_template("register.html")
+            return render_template("register.html",msg="กรุณาใส่ชื่อผู้ใช้",error="True")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
             print("Password error")
-            return render_template("register.html")
+            return render_template("register.html",msg="กรุณาใส่รหัสผ่าน",error="True")
 
         # Ensure password was equal to confirmation password
         elif request.form.get("password") != request.form.get("confirmation"):
             print("comfirmation error")
-            return render_template("register.html")
+            return render_template("register.html",msg="รหัสผ่านไม่ตรงกัน",error="True")
 
         # Ensure username was not the same as in database
         elif len(rows) == 1:
-            return render_template("register.html")
+            return render_template("register.html",msg="มีชื่อผู้ใช้แล้ว",error="True")
 
-        execute_user(users,f"INSERT INTO users(username,hash,verified) VALUES('{request.form.get('username')}','{generate_password_hash(request.form.get('password'))}',0)")
+        execute_user(users,f"INSERT INTO users(username,hash,verified,rank) VALUES('{request.form.get('username')}','{generate_password_hash(request.form.get('password'))}',0,'Guest')")
 
         return redirect("/login")
 
@@ -217,8 +217,10 @@ def register():
     else:
         return render_template("register.html")
 
-
-
+@app.route("/admin")
+@login_required
+def admin():
+    return render_template("admin.html")
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',status_code=404)

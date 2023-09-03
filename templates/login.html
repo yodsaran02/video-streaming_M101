@@ -17,6 +17,9 @@
             </div>
             <p>ยังไม่ได้สมัครสมาชิก?<a href="/register" class="register-link">สมัครสมาชิก</a></p>
         </form>
+        {% if error is defined %}
+        		<p style="color:red;">{{msg}}</p>
+        {% endif %}
     </div>
 </div>
 	</body>

@@ -17,6 +17,9 @@
             </div>
             <p style="">สมัครสมาชิกแล้ว?<a href="/login" class="register-link">ลงชื่อเข้าใช้</a></p>
         </form>
+        {% if error is defined %}
+            <p style="color:red;">{{msg}}</p>
+        {% endif %}
     </div>
 </div>
 	</body>
