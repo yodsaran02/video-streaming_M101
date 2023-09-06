@@ -72,6 +72,7 @@ def login_required(f):
 
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
+@login_required
 def index():
     print(session["user_id"])
     if have_table:
@@ -220,7 +221,15 @@ def register():
 @app.route("/admin")
 @login_required
 def admin():
-    return render_template("admin.html")
+    if request.method == "GET":
+        rank = execute_user(users,f"SELECT * FROM users WHERE id = '{session['user_id']}'")[0][4]
+        if rank == "Admin":
+            return render_template("admin.html")
+        else: 
+            redirect("/")
+    else:
+        redirect("/admin")
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html',status_code=404)
