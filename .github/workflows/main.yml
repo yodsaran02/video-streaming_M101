@@ -21,14 +21,15 @@ jobs:
             tags: tag:ci
             version: 1.52.0
             hostname: 'github-action'
-        - name: SFTP transfer
-          uses: danhendrickson/sftp-transfer-action@v2023.51.2
+        - name: SFTP SSH Action
+          id: upload
+          uses: Creepios/sftp-action@v1.0.4
           with:
-            server: 'jwind'
-            user: 'jwind'
-            pass: ${{ secrets.SFTP_PASS }}
+            host: 'jwind'
             port: 22
-            local-path: './'
-            remote-path: '/home/jwind/'
+            username: 'jwind'
+            password: ${{ secrets.SFTP_PASS }}
+            localPath: './'
+            remotePath: '/home/jwind/test'
 
 
