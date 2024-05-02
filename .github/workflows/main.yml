@@ -20,6 +20,15 @@ jobs:
             authkey: ${{ secrets.TS_AUTH_KEY }}
             tags: tag:ci
             version: 1.52.0
-            hostname: "github-action"
+            hostname: github-action
+        - name: SFTP transfer
+          uses: danhendrickson/sftp-transfer-action@v2023.51.2
+          with:
+            server: jwind
+            user: jwind
+            pass: ${{ secrets.SFTP_PASS }}
+            port: 22
+            local-path: ./
+            remote-path: /home/jwind/
 
 
