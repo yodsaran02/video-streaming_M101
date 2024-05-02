@@ -19,7 +19,6 @@ jobs:
           with:
             oauth-client-id: ${{ secrets.TS_OAUTH_USER }}
             oauth-secret: ${{ secrets.TS_OAUTH_PASS }}
-            tags: tag:ci
             version: 1.52.0
             hostname: 'github-action'
         - name: SFTP SSH Action
