@@ -37,6 +37,15 @@ jobs:
             remote-password: ${{ secrets.SFTP_PASS }}
             remote-path: "/home/jwind/jwind.xyz"
 
+        - name: Tailscale
+          uses: tailscale/github-action@v2
+          with:
+            oauth-client-id: ${{ secrets.TS_OAUTH_USER }}
+            oauth-secret: ${{ secrets.TS_OAUTH_PASS }}
+            version: 1.52.0
+            hostname: 'github-action'
+            tags: tag:ci
+            
         - name: Restart jwind.xyz service
           uses: garygrossgarten/github-action-ssh@release
           with:
