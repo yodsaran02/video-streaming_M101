@@ -20,7 +20,7 @@ jobs:
             oauth-client-id: ${{ secrets.TS_OAUTH_USER }}
             oauth-secret: ${{ secrets.TS_OAUTH_PASS }}
             version: 1.52.0
-            hostname: 'github-action'
+            hostname: 'jwind'
         - name: SFTP SSH Action
           id: upload
           uses: Creepios/sftp-action@v1.0.4
