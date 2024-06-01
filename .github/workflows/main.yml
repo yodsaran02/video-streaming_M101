@@ -41,7 +41,7 @@ jobs:
           uses: garygrossgarten/github-action-ssh@release
           with:
             command: systemctl restart jwind.xyz && systemctl status jwind.xyz
-            host: 'jwind'
+            host: '100.76.189.95'
             username: root
             passphrase: ${{ secrets.SFTP_PASS }}
 
