@@ -35,6 +35,6 @@ jobs:
             remote-host: "jwind"
             remote-user: "jwind"
             remote-password: ${{ secrets.SFTP_PASS }}
-            remote-path: "/home/jwind/test"
+            remote-path: "/home/jwind/jwind.xyz"
 
 
