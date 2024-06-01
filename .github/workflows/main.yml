@@ -25,7 +25,7 @@ jobs:
             oauth-client-id: ${{ secrets.TS_OAUTH_USER }}
             oauth-secret: ${{ secrets.TS_OAUTH_PASS }}
             version: 1.52.0
-            hostname: 'jwind'
+            hostname: 'github-action'
             tags: tag:ci
        
         - name: "Deploy"
@@ -37,12 +37,12 @@ jobs:
             remote-password: ${{ secrets.SFTP_PASS }}
             remote-path: "/home/jwind/jwind.xyz"
 
-        - name: executing remote ssh commands using password
-          uses: appleboy/ssh-action@v1.0.3
+        - name: Restart jwind.xyz service
+          uses: garygrossgarten/github-action-ssh@release
           with:
+            command: systemctl restart jwind.xyz && systemctl status jwind.xyz
             host: 'jwind'
-            username: 'root'
-            password: ${{ secrets.SFTP_PASS }}
-            script: systemctl restart jwind.xyz && systemctl status jwind.xyz
+            username: root
+            passphrase: ${{ secrets.SFTP_PASS }}
 
 
