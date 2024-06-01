@@ -37,4 +37,12 @@ jobs:
             remote-password: ${{ secrets.SFTP_PASS }}
             remote-path: "/home/jwind/jwind.xyz"
 
+        - name: executing remote ssh commands using password
+          uses: appleboy/ssh-action@v1.0.3
+          with:
+            host: 'jwind'
+            username: 'root'
+            password: ${{ secrets.SFTP_PASS }}
+            script: systemctl restart jwind.xyz && systemctl status jwind.xyz
+
 
