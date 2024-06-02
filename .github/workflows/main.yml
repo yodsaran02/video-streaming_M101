@@ -46,9 +46,8 @@ jobs:
             mkdir -p ~/.ssh
             MACHINE_IP="$(tailscale ip -6 $MACHINE)"
             ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
-            printf "%s" "$SSH_KEY" > ~/.ssh/key
-            chmod 600 ~/.ssh/key       
-            ssh -i $SSH_KEY "root@$MACHINE_IP" "systemctl restart jwind.xyz && systemctl status jwind.xyz"                    
+            printf "%s" "$SSH_KEY" > ~/.ssh/key    
+            ssh -i ~/.ssh/key "root@$MACHINE_IP" "systemctl restart jwind.xyz && systemctl status jwind.xyz"                    
 
 
 
