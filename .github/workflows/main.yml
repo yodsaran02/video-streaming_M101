@@ -12,8 +12,6 @@ on:
 
 jobs:
   Upload-to-SFTP:
-    env:
-      MACHINE: jwind
     runs-on: ubuntu-latest
     steps:
         - name: "Checkout"
@@ -29,16 +27,6 @@ jobs:
             version: 1.52.0
             hostname: 'github-action'
             tags: tag:ci
-         - name: Add SSH key
-          id: ssh
-          env:
-            SSH_KEY: ${{ secrets.SSH_KEY }}
-          run: |
-            mkdir -p ~/.ssh
-            MACHINE_IP="$(tailscale ip -6 $MACHINE)"
-            ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
-            printf "%s" "$SSH_KEY" > ~/.ssh/key
-            chmod 600 ~/.ssh/key       
             
         - name: "Deploy"
           uses: milanmk/actions-file-deployer@master
@@ -49,7 +37,21 @@ jobs:
             remote-password: ${{ secrets.SFTP_PASS }}
             remote-path: "/home/jwind/jwind.xyz"
 
+        - name: Add SSH key
+          id: ssh
+          env:
+            SSH_KEY: ${{ secrets.SSH_KEY }}
+            MACHINE: jwind
+          run: |
+            mkdir -p ~/.ssh
+            MACHINE_IP="$(tailscale ip -6 $MACHINE)"
+            ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
+            printf "%s" "$SSH_KEY" > ~/.ssh/key
+            chmod 600 ~/.ssh/key       
+            
         - name: "Restart Service"
+          env:
+            MACHINE: jwind
           run: |
             MACHINE_IP="$(tailscale ip -6 $MACHINE)"
             ssh -i ~/.ssh/key "root@$MACHINE_IP" "systemctl restart jwind.xyz && systemctl status jwind.xyz"                    
