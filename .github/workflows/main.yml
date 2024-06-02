@@ -53,5 +53,6 @@ jobs:
             host: '100.76.189.95'
             username: root
             passphrase: ${{ secrets.SFTP_PASS }}
+            tryKeyboard: True
 
 
