@@ -44,7 +44,7 @@ jobs:
             MACHINE: jwind
           run: |
             mkdir -p ~/.ssh
-            MACHINE_IP="$(tailscale ip -6 $MACHINE)"
+            MACHINE_IP="$(tailscale ip -4 $MACHINE)"
             ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
             printf "%s" "$SSH_KEY" > ~/.ssh/key 
             chmod 700 ~/.ssh
