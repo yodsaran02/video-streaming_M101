@@ -3,6 +3,7 @@ import sqlite3 as sql
 import subprocess as process
 import os
 import requests
+import socket
 from tempfile import mkdtemp
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -16,12 +17,10 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-online_mode = True
-try:
-    ip = requests.get('https://api.ipify.org').content.decode('utf8')
-except:
-    online_mode = False
-    ip = "Jwind.tv"
+online_mode = False
+
+if socket.gethostname() == 'jwind':
+    online_mode = True
 
 if os.path.exists("./video.db"):
     have_db = True
