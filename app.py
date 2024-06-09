@@ -4,6 +4,7 @@ import subprocess as process
 import os
 import requests
 import socket
+import json
 from tempfile import mkdtemp
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -18,6 +19,11 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 online_mode = False
+
+config_file = open('config/config.json')
+config = json.load(config_file)
+version = config['version']
+release_note = config['release_note']
 
 if socket.gethostname() == 'jwind':
     online_mode = True
@@ -37,10 +43,8 @@ try:
         dbs.execute(command)
         user.commit()
         return list(users.fetchall())
-
 except:
     have_db = False
-
 
 if have_db:
     con = sql.connect("video.db",check_same_thread=False)
@@ -54,52 +58,15 @@ if have_db:
     except:
         have_table = False
 
-version = 62
-
-def login_required(f):
-    """
-    Decorate routes to require login.
-    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
-            return redirect("/login")
-        return f(*args, **kwargs)
-    return decorated_function
-
-
 #print(execute(db,"SELECT * FROM video"))
 @app.route("/")
-@login_required
 def index():
     print(session["user_id"])
     if have_table:
         video_count = str(execute(db,"SELECT count(*) FROM video")[0][0])
     else:
         video_count = "Not connected to db"
-    return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode,video_count=video_count)
-
-@app.route("/Web/<subject>")
-@login_required
-def Web(subject):
-    return render_template("Web/"+subject+".html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
-
-@app.route("/upload",methods=["GET","POST"])
-@login_required
-def upload():
-    if request.method == "POST":
-        if request.form.get("password") == "m101":
-            return redirect("http://"+ip+":3000")
-        else:
-            return redirect("/")
-    else:
-        return render_template("upload.html",have_db=have_db,have_table=have_table,online_mode=online_mode)
-
-@app.route("/uploads")
-@login_required
-def uploads():
-    return render_template("uploads.html",have_db=have_db,have_table=have_table,online_mode=online_mode)
+    return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode,video_count=video_count,release_note=release_note)
 
 @app.route("/search",methods=["GET"])
 @login_required
@@ -125,7 +92,11 @@ def video():
     args = request.args
     subject = args.get("subject")
     date = args.get("date")
-    link = "https://jwind.tv:3001/Video/"+subject+"/"+date
+    if online_mode:
+        cdn = 'cdn.jwind.xyz'
+    else:
+        cdn = 'localhost'
+    link = f'https://{cdn}/Video/{subject}/{date}'
     return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
