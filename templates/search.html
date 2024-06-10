@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Search - M2/1 Video{% endblock %}
+{% block title %}Search - M3/1 Video{% endblock %}
 {% block main %}
 
 
@@ -66,6 +66,9 @@
 
 <!-- Video Preview -->
 <div class="row">
+{% if length == 0 %}
+<h5>No Video avaliable</h5>
+{% endif %}
 {% for i in range(length) %}
 <div class="column">
   <div class="card" >
