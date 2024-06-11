@@ -59,8 +59,8 @@ if have_db:
         have_table = False
 
 #print(execute(db,"SELECT * FROM video"))
-@login_required
 @app.route("/")
+@login_required
 def index():
     print(session["user_id"])
     if have_table:
