@@ -26,3 +26,8 @@ function copylinks(){
   button.innerHTML = "Copied!";
   const texttimeout = setTimeout(function (){button.innerHTML = "Copylink";},2000); 
 }
+
+const player = new Plyr('video', {captions: {active: true}});
+
+// Expose player so it can be used from the console
+window.player = player;

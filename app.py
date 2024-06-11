@@ -86,17 +86,14 @@ def search():
     else:
         return render_template("404.html",status_code="Database error")
 
-@app.route("/video",methods=["GET"])
+@app.route("/video/<video_hash>",methods=["GET"])
 @login_required
-def video():
-    args = request.args
-    subject = args.get("subject")
-    date = args.get("date")
+def video(video_hash):
     if online_mode:
         cdn = 'cdn.jwind.xyz'
     else:
         cdn = 'localhost'
-    link = f'https://{cdn}/Video/{subject}/{date}'
+    link = f'https://{cdn}/Video/{video_hash}'
     return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
