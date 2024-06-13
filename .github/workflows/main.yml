@@ -25,9 +25,9 @@ jobs:
             oauth-client-id: ${{ secrets.TS_OAUTH_USER }}
             oauth-secret: ${{ secrets.TS_OAUTH_PASS }}
             version: 1.52.0
-            hostname: 'jwind'
+            hostname: 'github-action'
             tags: tag:ci
-       
+            
         - name: "Deploy"
           uses: milanmk/actions-file-deployer@master
           with:
@@ -36,5 +36,7 @@ jobs:
             remote-user: "jwind"
             remote-password: ${{ secrets.SFTP_PASS }}
             remote-path: "/home/jwind/jwind.xyz"
+                  
+
 
 
