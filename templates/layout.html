@@ -10,8 +10,10 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="/static/style.css">
-		<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-  </head>
+		<link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css" />
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes,CustomEvent,Object.entries,Object.values,URL"></script>
+	<script src="https://unpkg.com/plyr@3"></script>
+</head>
   <body>
     {% if not have_table %}
 		<div class="banner">
