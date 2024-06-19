@@ -5,6 +5,7 @@ import os
 import requests
 import socket
 import json
+import re
 from tempfile import mkdtemp
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -158,6 +159,8 @@ def register():
     # User reached route via POST (as by submitting a form via POST)
 
     if request.method == "POST":
+        regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+        p = re.compile(regex)
         rows = execute_user(users,f"SELECT * FROM users WHERE username = '{request.form.get('username')}'")
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -169,6 +172,13 @@ def register():
             print("Password error")
             return render_template("register.html",msg="กรุณาใส่รหัสผ่าน",error="True")
 
+        # Ensure that the password is secured
+        elif ' ' in request.form.get("password") or ' ' in request.form.get("username"):
+            return render_template("register.html",msg="ชื่อผู้ใช้หรือรหัสผ่านไม่สามารถมีช่องว่างได้",error="True")
+        
+        elif not re.search(p, request.form.get("password")):
+            return render_template("register.html",msg="รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร&ตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว&ตัวเลขอย่างน้อย 1 ตัว&ตัวพิมพ์เล็กอย่างน้อย 1 ตัว",error="True")
+
         # Ensure password was equal to confirmation password
         elif request.form.get("password") != request.form.get("confirmation"):
             print("comfirmation error")
@@ -176,7 +186,7 @@ def register():
 
         # Ensure username was not the same as in database
         elif len(rows) == 1:
-            return render_template("register.html",msg="มีชื่อผู้ใช้แล้ว",error="True")
+            return render_template("register.html",msg="มีชื่อผู้ใช้นี้แล้ว",error="True")
 
         execute_user(users,f"INSERT INTO users(username,hash,verified,rank) VALUES('{request.form.get('username')}','{generate_password_hash(request.form.get('password'))}',0,'Guest')")
 
