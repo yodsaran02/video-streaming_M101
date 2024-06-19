@@ -1,5 +1,5 @@
 {
-    "version":"1.0.8",
-    "release_note":"Fix navbar & sidebar in Video page!"
+    "version":"1.0.9",
+    "release_note":"Check when register if the password is secured & Added All Video button"
     
 }
