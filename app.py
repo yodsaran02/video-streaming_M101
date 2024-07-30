@@ -96,7 +96,8 @@ def video(video_hash):
     else:
         cdn = 'localhost'
     link = f'https://{cdn}/Video/{video_hash}'
-    return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode)
+    info = execute(db,f"SELECT * FROM video WHERE hash = '{video_hash}'")
+    return render_template("video.html",link=link,version=version,have_db=have_db,have_table=have_table,online_mode=online_mode,info=info)
 
 @app.route("/tag/<subject_tag>",methods=["POST","GET"])
 @login_required
