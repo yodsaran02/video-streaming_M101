@@ -123,7 +123,8 @@ def tagpage():
 def login():
     session.clear()
     if request.method == "GET":
-        return render_template("login.html")
+        url_path = request.args.get("path")
+        return render_template("login.html",url_path=url_path)
     elif request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -149,7 +150,7 @@ def login():
         session["name"] = rows[0][1]
 
         # Redirect user to home page
-        return redirect("/")
+        return redirect(request.form.get("urlpath"))
 
 @app.route("/register",methods=["POST","GET"])
 def register():

@@ -2,7 +2,7 @@ import os
 import requests
 import urllib.parse
 
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, url_for
 from functools import wraps
 
 
@@ -24,13 +24,15 @@ def apology(message, code=400):
 def login_required(f):
     """
     Decorate routes to require login.
-
-    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
+    Redirects to the login page with the path the user tried to visit.
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
-            return redirect("/login")
+            # Get the path the user is trying to visit
+            next_url = request.full_path
+            # Redirect to login page and include the next path in the query string
+            return redirect(url_for('login', path=next_url))
         return f(*args, **kwargs)
     return decorated_function
 
