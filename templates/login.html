@@ -1,5 +1,6 @@
 <html>
 	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10, user-scalable=no"/>
 		<link rel="stylesheet" href="/static/login.css">
 		<title>SMP Community</title>
 	</head>	
@@ -12,6 +13,7 @@
         <form action="/login" method="post">
             <input name="username" type="text" placeholder="Username">
             <input name="password" type="password" placeholder="Password">
+            <input name="urlpath" type="hidden" value="{{ url_path }}">
             <div class="buttons">
                 <button type="submit" class="login-button">ลงชื่อเข้าใช้</button>
             </div>
