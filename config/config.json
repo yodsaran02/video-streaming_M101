@@ -1,5 +1,6 @@
 {
     "version":"1.1.1",
-    "release_note":"Fix UI Scaling login page for Mobile & redirect to desired path when login"
+    "release_note":"Fix UI Scaling login page for Mobile & redirect to desired path when login",
+    "cdn":"jwind-video.localto.net"
     
 }

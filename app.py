@@ -19,15 +19,16 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-online_mode = False
+#online_mode = False
 
 config_file = open('config/config.json')
 config = json.load(config_file)
 version = config['version']
 release_note = config['release_note']
+cdn_url = config['cdn']
 
-if socket.gethostname() == 'jwind':
-    online_mode = True
+#if socket.gethostname() == 'jwind':
+online_mode = True
 
 if os.path.exists("./video.db"):
     have_db = True
@@ -63,12 +64,12 @@ if have_db:
 @app.route("/")
 @login_required
 def index():
-    print(session["user_id"])
+    print(session)
     if have_table:
         video_count = str(execute(db,"SELECT count(*) FROM video")[0][0])
     else:
         video_count = "Not connected to db"
-    return render_template("index.html",version=version,have_db=have_db,have_table=have_table,online_mode=online_mode,video_count=video_count,release_note=release_note)
+    return render_template("index.html",version=version,session=session,have_db=have_db,have_table=have_table,online_mode=online_mode,video_count=video_count,release_note=release_note)
 
 @app.route("/search",methods=["GET"])
 @login_required
@@ -92,7 +93,7 @@ def search():
 @login_required
 def video(video_hash):
     if online_mode:
-        cdn = 'cdn.jwind.xyz'
+        cdn = cdn_url
     else:
         cdn = 'localhost'
     link = f'https://{cdn}/Video/{video_hash}'
@@ -148,7 +149,8 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0][0]
         session["name"] = rows[0][1]
-
+        session["verified"] = row[0][3]
+        session["permission"] = rows[0][4]
         # Redirect user to home page
         return redirect(request.form.get("urlpath"))
 
