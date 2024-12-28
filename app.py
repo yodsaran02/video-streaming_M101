@@ -149,7 +149,7 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0][0]
         session["name"] = rows[0][1]
-        session["verified"] = row[0][3]
+        session["verified"] = rows[0][3]
         session["permission"] = rows[0][4]
         # Redirect user to home page
         return redirect(request.form.get("urlpath"))

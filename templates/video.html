@@ -54,15 +54,10 @@
           <button type="button" id="sidebarCollapse" class="btn btn-primary">
             <i class="fa fa-bars"></i>
             <span class="sr-only">Toggle Menu</span>
-          </button><br><br>
-          <div class="text-start">
-              <form action="/search" method="get">
-                  <input class="navbarss" type="text" size="80" class="rounded" id="search" placeholder="Search" name="search" autocomplete="off">
-                  <input style="height: 30px;" for="search" size="18" type="submit" class="rounded" id="search_btn" value="🔍︎">
-              </form>
-            </div>		
-          <h3 class="text-light m-1"></h3>
+          </button>
         </div>
+        <h5 class="text-light m-1">{{ session["name"] }}</h5>
+			<img height="50px" width="auto" class="rounded-circle" src="/static/image/icon.png">
       </nav> 
 <!-- Video Preview -->
 <video src={{ link }} style="width :100%;" autoplay controls controlsList="nodownload"></video>
