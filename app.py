@@ -30,7 +30,7 @@ cdn_url = config['cdn']
 #if socket.gethostname() == 'jwind':
 online_mode = True
 
-if os.path.exists("./video.db"):
+if os.path.exists("./video.db"): 
     have_db = True
     have_table = True
 else:
