@@ -40,7 +40,7 @@
 	              <a href="/search?subject=History">ประวัติศาสตร์</a>
 	          </li>
 			  <li>
-				  <a href="/login">Logout</a>
+				  <a href="/login?path=/?">Logout</a>
 			  </li>
 			  <li style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 10px; margin:0;">
           <p style="font-size:10px; text-align: center; margin-top:10px; color: rgba(255, 255, 255, 0.8);">©2024 Jwind.xyz Is a streaming service, Not associate with any official school.</p>
@@ -68,19 +68,17 @@
 <h5>No Video avaliable</h5>
 {% endif %}
 {% for i in range(length) %}
-<div class="column">
-  <div class="card" >
+  <div class="card col" style="margin-left: 10px; margin-right: 10px;">
+    <img src="/static/image/icon.png" onclick="window.location.href='/video/{{related[i][6]}}';">
     <a href="/video/{{related[i][6]}}">{{ related[i][1] }}</a>
     <p style="font-size:auto;">{{ related[i][3] }}</p>
   </div>
-</div>
 {% if (i+1) % 4 == 0 %}
 </div>
 <div class="row">
 {% endif %}
 {% endfor %}
 </div>
-
 </div>
 </div>
 </div>
@@ -135,10 +133,10 @@ if (screen.width <= 700) {
   /* Style the counter cards */
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
+    padding: 10px;
     text-align: center;
     background-color: #f1f1f1;
-    height: 140px;
+    height: auto;
     transition: transform .2s;
   }
   .card:hover {
