@@ -127,20 +127,21 @@ def login():
         url_path = request.args.get("path")
         return render_template("login.html",url_path=url_path)
     elif request.method == "POST":
+        url_path = request.form.get("urlpath")
         # Ensure username was submitted
         if not request.form.get("username"):
-            return render_template("login.html",msg="กรุณาใส่ชื่อผู้ใช้",error="True")
+            return render_template("login.html",msg="กรุณาใส่ชื่อผู้ใช้",error="True",url_path=url_path)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return render_template("login.html",msg="กรุณาใส่รหัสผ่าน",error="True")
+            return render_template("login.html",msg="กรุณาใส่รหัสผ่าน",error="True",url_path=url_path)
 
         # Query database for username
         rows = execute_user(users,f"SELECT * FROM wifi WHERE username = '{request.form.get('username')}'")
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or request.form.get("password") != rows[0][4]:
-            return render_template("login.html",msg="รหัสผ่านไม่ถูกต้อง",error="True")
+            return render_template("login.html",msg="รหัสผ่านไม่ถูกต้อง",error="True",url_path=url_path)
 
         # Remember which user has logged in
         session["user_id"] = rows[0][3]
