@@ -4,104 +4,38 @@
 {% block main %}
 
 
-<div class="wrapper d-flex align-items-stretch">
-    <nav id="sidebar">
-        <div class="p-4 pt-5">
-    <ul class="list-unstyled components mb-5">
-      <h3 class="text-light m-1" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 10px;">Quick Access💾</h2>
-				
-				<li >
-					
-					<a href="/" style="text-align: left;"> Home</a>
-				</li>
-        <li>
-					<a href="/search?subject=">วิดีโอทั้งหมด</a>
-				</li>
-	           <li>
-				
-	              <a href="/search?subject=Math">คณิตศาสตร์</a>
-	          </li>
-			  <li>
-	              <a href="/search?subject=Science">วิทยาศาสตร์</a>
-	          </li>
-			  <li>
-	              <a href="/search?subject=English">ภาษาอังกฤษ</a>
-	          </li>
-			  <li>
-	              <a href="/search?subject=Thai">ภาษาไทย</a>
-	          </li>
-			  <li>
-	              <a href="/search?subject=Social">สังคม</a>
-	          </li>
-			  <li>
-	              <a href="/search?subject=Health">สุขศึกษา</a>
-	          </li>
-			  <li>
-	              <a href="/search?subject=History">ประวัติศาสตร์</a>
-	          </li>
-			  <li>
-				  <a href="/login?path=/?">Logout</a>
-			  </li>
-			  <li style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 10px; margin:0;">
-          <p style="font-size:10px; text-align: center; margin-top:10px; color: rgba(255, 255, 255, 0.8);">©2024 Jwind.xyz Is a streaming service, Not associate with any official school.</p>
-          </li>
-    </ul>
-  </div>
-</nav>
-
-<!-- Page Content  -->
-<div id="content" class="p-4 p-md-5">
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #dc3545;">
-    <div class="container-fluid">
-      <button type="button" id="sidebarCollapse" class="btn btn-primary">
-        <i class="fa fa-bars"></i>
-        <span class="sr-only">Toggle Menu</span>
-      </button>		
-    </div>
-    <h5 class="text-light m-1">{{ session["name"] }}</h5>
-			<img height="50px" width="auto" class="rounded-circle" src="/static/image/icon.png">
-  </nav>
-
 <!-- Video Preview -->
 <div class="row">
 {% if length == 0 %}
-<h5>No Video avaliable</h5>
-{% endif %}
-{% for i in range(length) %}
-  <div class="card col" style="margin-left: 10px; margin-right: 10px;">
-    <img src="/static/image/icon.png" onclick="window.location.href='/video/{{related[i][6]}}';">
-    <a href="/video/{{related[i][6]}}">{{ related[i][1] }}</a>
-    <p style="font-size:auto;">{{ related[i][3] }}</p>
+  <h5 class="text-center">No Video Available</h5>
+  {% else %}
+  <div class="row g-4">
+      {% for i in range(length) %}
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+              <img 
+                  src="/static/image/icon.png" 
+                  class="card-img-top" 
+                  onclick="window.location.href='/video/{{ related[i][6] }}';"
+                  alt="Video Thumbnail">
+              <div class="card-body">
+                  <a href="/video/{{ related[i][6] }}" class="card-title text-decoration-none">
+                      {{ related[i][1] }}
+                  </a>
+                  <p class="card-text">{{ related[i][3] }}</p>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
   </div>
-{% if (i+1) % 4 == 0 %}
-</div>
-<div class="row">
-{% endif %}
-{% endfor %}
-</div>
-</div>
-</div>
+  {% endif %}
 </div>
 
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/popper.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/main.js"></script>
-<script>
-
-if (screen.width <= 700) {
-    document.getElementById("search").size = 17;
-}
-
-</script>
 <style>
   * {
     box-sizing: border-box;
   }
   
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
   
   /* Float four columns side by side */
   .column {
