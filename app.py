@@ -38,7 +38,7 @@ else:
     have_table = False
 
 try:
-    user = sql.connect("wifi.sqlite", check_same_thread=False)
+    user = sql.connect("user.db", check_same_thread=False)
     users = user.cursor()
     print("connected to user database")
     def execute_user(dbs,command):
@@ -137,18 +137,69 @@ def login():
             return render_template("login.html",msg="กรุณาใส่รหัสผ่าน",error="True",url_path=url_path)
 
         # Query database for username
-        rows = execute_user(users,f"SELECT * FROM wifi WHERE username = '{request.form.get('username')}'")
+        rows = execute_user(users,f"SELECT * FROM users WHERE username = '{request.form.get('username')}'")
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or request.form.get("password") != rows[0][4]:
-            return render_template("login.html",msg="รหัสผ่านไม่ถูกต้อง",error="True",url_path=url_path)
+        if len(rows) != 1 or not check_password_hash(rows[0][2], request.form.get("password")):
+            return render_template("login.html",msg="รหัสผ่านไม่ถูกต้อง",error="True")
+
+        # Ensure that the user is verified
+        if not rows[0][3]:
+            return render_template("verified.html")
 
         # Remember which user has logged in
-        session["user_id"] = rows[0][3]
-        session["name"] = str(rows[0][3])+" " + str(rows[0][5])
-        session["class"] = rows[0][5]
+        session["user_id"] = rows[0][0]
+        session["name"] = rows[0][1]
+        session["verified"] = rows[0][3]
+        session["permission"] = rows[0][4]
         # Redirect user to home page
         return redirect(request.form.get("urlpath"))
+
+@app.route("/register",methods=["POST","GET"])
+def register():
+    """Register user"""
+    # Forget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+
+    if request.method == "POST":
+        regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+        p = re.compile(regex)
+        rows = execute_user(users,f"SELECT * FROM users WHERE username = '{request.form.get('username')}'")
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            print("Username error")
+            return render_template("register.html",msg="กรุณาใส่ชื่อผู้ใช้",error="True")
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            print("Password error")
+            return render_template("register.html",msg="กรุณาใส่รหัสผ่าน",error="True")
+
+        # Ensure that the password is secured
+        elif ' ' in request.form.get("password") or ' ' in request.form.get("username"):
+            return render_template("register.html",msg="ชื่อผู้ใช้หรือรหัสผ่านไม่สามารถมีช่องว่างได้",error="True")
+        
+        elif not re.search(p, request.form.get("password")):
+            return render_template("register.html",msg="รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร&ตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว&ตัวเลขอย่างน้อย 1 ตัว&ตัวพิมพ์เล็กอย่างน้อย 1 ตัว",error="True")
+
+        # Ensure password was equal to confirmation password
+        elif request.form.get("password") != request.form.get("confirmation"):
+            print("comfirmation error")
+            return render_template("register.html",msg="รหัสผ่านไม่ตรงกัน",error="True")
+
+        # Ensure username was not the same as in database
+        elif len(rows) == 1:
+            return render_template("register.html",msg="มีชื่อผู้ใช้นี้แล้ว",error="True")
+
+        execute_user(users,f"INSERT INTO users(username,hash,verified,rank) VALUES('{request.form.get('username')}','{generate_password_hash(request.form.get('password'))}',0,'Guest')")
+
+        return redirect("/login")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("register.html")
 
 @app.route("/admin")
 @login_required
