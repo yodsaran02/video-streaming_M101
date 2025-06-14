@@ -29,8 +29,8 @@ jobs:
           uses: milanmk/actions-file-deployer@master
           with:
             remote-protocol: "sftp"
-            remote-host: "jwind"
-            remote-user: "jwind"
+            remote-host: ${{ secrets.SFTP_USER }}
+            remote-user: ${{ secrets.SFTP_USER }}
             remote-password: ${{ secrets.SFTP_PASS }}
             remote-path: "/home/jwind/jwind.xyz"
                   
